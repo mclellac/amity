@@ -39,21 +39,21 @@ databasename    = amity
  ``` 
 
  ## Start the amityd service:
- ```
+ ```bash
 $ ./amityd start
  ```
 
  ## Add a post with the client
- ```
+ ```bash
  $ ./amity add "I'm the title of the post" "... and I'm the article."
  ```
 
  ## List all of the posts
- ```
+ ```bash
  $ ./amity ls
  ```
 
  ## Delete a post
- ```
+ ```bash
  $ ./amity rm $ID
  ```
