@@ -15,8 +15,8 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "amity"
-	app.Usage = "Create & list posts on an Amity server."
-	app.Version = "0.0.1"
+	app.Usage = "The command like application that allows you to interact with amityd."
+	app.Version = "0.0.2"
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{Name: "host", Value: "http://localhost:3000", Usage: "amityd server host"},
@@ -24,8 +24,10 @@ func main() {
 
 	app.Commands = []cli.Command{
 		{
-			Name:  "add",
-			Usage: "(title body) - create a new post",
+			Name:        "add",
+			Usage:       "Creates a new post.",
+			Description: "Create a new post.",
+			ArgsUsage:   "[\"post title\"] [\"post body\"]",
 			Action: func(c *cli.Context) error {
 				title := c.Args().Get(0)
 				article := c.Args().Get(1)
@@ -43,8 +45,9 @@ func main() {
 			},
 		},
 		{
-			Name:  "ls",
-			Usage: "list all posts",
+			Name:        "ls",
+			Usage:       "List all posts.",
+			Description: "Displays the IDs and titles of posts on the server.",
 			Action: func(c *cli.Context) error {
 				host := c.GlobalString("host")
 				client := client.Client{Host: host}
@@ -71,8 +74,10 @@ func main() {
 			},
 		},
 		{
-			Name:  "read",
-			Usage: "(id) delete a post",
+			Name:        "read",
+			Usage:       "Display the article of the supplied ID.",
+			Description: "Retrieves the article of the post, and displays it.",
+			ArgsUsage:   "[ID]",
 			Action: func(c *cli.Context) error {
 				idStr := c.Args().Get(0)
 
@@ -97,8 +102,10 @@ func main() {
 			},
 		},
 		{
-			Name:  "rm",
-			Usage: "(id) delete a post",
+			Name:        "rm",
+			Usage:       "Delete a post.",
+			Description: "Remove the post with the supplied ID from the server.",
+			ArgsUsage:   "[ID]",
 			Action: func(c *cli.Context) error {
 				idStr := c.Args().Get(0)
 
