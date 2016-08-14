@@ -7,6 +7,7 @@ import (
 
 	"github.com/mclellac/amity/lib/server"
 	"github.com/mclellac/amity/lib/ui"
+
 	"github.com/urfave/cli"
 	"gopkg.in/gcfg.v1"
 )
