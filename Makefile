@@ -2,6 +2,7 @@ NO_COLOR=$(shell echo  "\033[0m")
 OK_COLOR=$(shell echo  "\033[32;01m")
 ERROR_COLOR=$(shell echo  "\033[31;01m")
 WARN_COLOR=$(shell echo  "\033[33;01m")
+SOURCE=$(go list ./... | grep -v "tests")
 GOCMD=go
 GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
@@ -38,6 +39,11 @@ clean:
 
 #migrate:
 #	./amityd --config amity.gcfg migratedb
+
+install:
+	@echo "$(OK_COLOR)==> Installing$(NO_COLOR)"
+	go install -v ./cmd/server
+	go install -v ./cmd/client
 
 lint:
 	@echo "$(OK_COLOR)==> Linting$(NO_COLOR)"
