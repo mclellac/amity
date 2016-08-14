@@ -2,7 +2,7 @@
 Amity client/server
 
 ## Installation
-```bash
+``` bash
 $ git clone git://github.com/mclellac/amity.git
 $ cd amity && make deps
 $ make 
@@ -36,24 +36,24 @@ databasename    = amity
         location / {
                 proxy_pass      http://127.0.0.1:3000;
         }
- ``` 
+``` 
 
- ## Start the amityd service:
- ```bash
+## Start the amityd service:
+``` bash
 $ ./amityd start
- ```
+```
 
- ## Add a post with the client
- ```bash
+## Add a post with the client
+``` bash
  $ ./amity add "I'm the title of the post" "... and I'm the article."
  ```
 
- ## List all of the posts
- ```bash
+## List all of the posts
+``` bash
  $ ./amity ls
- ```
+```
 
- ## Delete a post
- ```bash
+## Delete a post
+``` bash
  $ ./amity rm $ID
- ```
+```
