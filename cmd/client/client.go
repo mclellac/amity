@@ -54,6 +54,15 @@ func main() {
 					log.Fatal(err)
 				}
 
+				fmt.Printf("%s[%sid:%s]\t%sTitle:%s\n",
+					ui.LightBlue,
+					ui.Grey,
+					ui.LightBlue,
+					ui.Grey,
+					ui.Reset)
+
+				ui.DrawDivider()
+
 				for _, post := range posts {
 					client.ListView(post.Id, post.Title)
 				}

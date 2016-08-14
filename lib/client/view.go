@@ -10,13 +10,11 @@ import (
 func (client *Client) ListView(id int32, title string) {
 	idStr := strconv.FormatInt(int64(id), 10)
 
-	fmt.Printf("%s[%sid:%s%s%s]\t%stitle: %s%s%s\n",
+	fmt.Printf("%s[%s%s%s]\t%s%s%s\n",
 		ui.LightBlue,
-		ui.Grey,
 		ui.LightCyan,
 		idStr,
 		ui.LightBlue,
-		ui.Grey,
 		ui.LightCyan,
 		title,
 		ui.Reset)
