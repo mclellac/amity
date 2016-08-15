@@ -30,8 +30,8 @@ format:
 
 build:
 	@echo "$(OK_COLOR)==> Building$(NO_COLOR)"
-	$(GOBUILD) -o ./amityd ./cmd/server/
-	$(GOBUILD) -o ./amity  ./cmd/client/
+	$(GOBUILD) -o ./amityd ./cmd/amityd/
+	$(GOBUILD) -o ./amity  ./cmd/amity/
 
 clean:
 	go clean -i -r -x
@@ -42,19 +42,19 @@ clean:
 
 install:
 	@echo "$(OK_COLOR)==> Installing$(NO_COLOR)"
-	go install -v ./cmd/server
-	go install -v ./cmd/client
+	go install ./cmd/amityd
+	go install ./cmd/amity
 
 lint:
 	@echo "$(OK_COLOR)==> Linting$(NO_COLOR)"
 	${GOPATH}/bin/golint .
 
 vet:
-	go vet ./cmd/server/
-	go vet ./cmd/client/
+	go vet ./cmd/amityd/
+	go vet ./cmd/amity/
 	go vet ./lib/api/
-	go vet ./lib/server/
-	go vet ./lib/client/
+	go vet ./libamityd/
+	go vet ./lib/amity/
 
 test:
 	./amityd --config amityd.gcfg start & pid=$$!; cd tests && go test; kill $$pid
