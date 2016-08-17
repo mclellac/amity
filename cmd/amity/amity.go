@@ -25,8 +25,8 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:        "add",
-			Usage:       "Creates a new post.",
-			Description: "Create a new post.",
+			Usage:       "Create a new post.",
+			Description: "Adds new article to the database.\n\nEXAMPLE:\n   $ amity add \"Test Title\" \"Test article body...\"",
 			ArgsUsage:   "[\"post title\"] [\"post body\"]",
 			Action: func(c *cli.Context) error {
 				title := c.Args().Get(0)
@@ -47,7 +47,7 @@ func main() {
 		{
 			Name:        "ls",
 			Usage:       "List all posts.",
-			Description: "Displays the IDs and titles of posts on the server.",
+			Description: "Displays the IDs and titles of posts on the server.\n\nEXAMPLE:\n   $ amity ls",
 			Action: func(c *cli.Context) error {
 				host := c.GlobalString("host")
 				client := client.Client{Host: host}
@@ -76,7 +76,7 @@ func main() {
 		{
 			Name:        "read",
 			Usage:       "Display the article of the supplied ID.",
-			Description: "Retrieves the article of the post, and displays it.",
+			Description: "Retrieves the article of the post, and displays it.\n\nEXAMPLE:\n   $ amity read 2",
 			ArgsUsage:   "[ID]",
 			Action: func(c *cli.Context) error {
 				idStr := c.Args().Get(0)
@@ -104,7 +104,7 @@ func main() {
 		{
 			Name:        "rm",
 			Usage:       "Delete a post.",
-			Description: "Remove the post with the supplied ID from the server.",
+			Description: "Remove the post with the supplied ID from the server.\n\nEXAMPLE:\n   $ amity rm 2",
 			ArgsUsage:   "[ID]",
 			Action: func(c *cli.Context) error {
 				idStr := c.Args().Get(0)
