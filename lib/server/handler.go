@@ -56,7 +56,7 @@ func (s *Service) DeletePost(c *gin.Context) {
 func (s *Service) GetAllPosts(c *gin.Context) {
 	var posts []api.Post
 
-	s.db.Order("created desc").Find(&posts)
+	s.db.Order("created article").Find(&posts)
 
 	c.JSON(200, posts)
 }
@@ -74,7 +74,7 @@ func (s *Service) GetPost(c *gin.Context) {
 	var post api.Post
 
 	if s.db.First(&post, id).RecordNotFound() {
-		c.JSON(404, gin.H{"error": "not found."})
+		c.JSON(404, gin.H{"error": "HTTP 404 not found."})
 	} else {
 		c.JSON(200, post)
 	}
@@ -103,7 +103,7 @@ func (s *Service) UpdatePost(c *gin.Context) {
 	var post api.Post
 
 	if c.Bind(&post) == nil {
-		c.JSON(400, api.NewError("Problem decoding desc"))
+		c.JSON(400, api.NewError("Problem decoding article"))
 		return
 	}
 	post.Id = int32(id)
@@ -111,7 +111,7 @@ func (s *Service) UpdatePost(c *gin.Context) {
 	var existing api.Post
 
 	if s.db.First(&existing, id).RecordNotFound() {
-		c.JSON(404, api.NewError("Not found"))
+		c.JSON(404, api.NewError("HTTP 404 not found."))
 	} else {
 		s.db.Save(&post)
 		c.JSON(200, post)
