@@ -26,7 +26,7 @@ func TestGetPost(t *testing.T) {
 		t.Error(err)
 	}
 
-	if post.Title != "foo" && post.Body != "bar" {
+	if post.Title != "foo" && post.Article != "bar" {
 		t.Error("returned post not right")
 	}
 
@@ -38,7 +38,7 @@ func TestGetNotFound(t *testing.T) {
 
 	// given
 	client := client.Client{Host: "http://localhost:3000"}
-	id := int64(3)
+	id := int32(3)
 
 	// when
 	_, err := client.GetPost(id)
@@ -67,10 +67,10 @@ func TestGetAllPosts(t *testing.T) {
 	if len(posts) != 2 {
 		t.Error("wrong number of posts")
 	}
-	if posts[0].Title != "foo" && posts[0].Body != "bar" {
+	if posts[0].Title != "foo" && posts[0].Article != "bar" {
 		t.Error("returned post not right")
 	}
-	if posts[1].Title != "baz" && posts[1].Body != "bing" {
+	if posts[1].Title != "baz" && posts[1].Article != "bing" {
 		t.Error("returned post not right")
 	}
 

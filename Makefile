@@ -37,8 +37,8 @@ clean:
 	go clean -i -r -x
 	rm ./amityd && rm ./amity
 
-#migrate:
-#	./amityd --config amity.gcfg migratedb
+migrate:
+	./amityd --config amityd.conf migratedb
 
 install:
 	@echo "$(OK_COLOR)==> Installing$(NO_COLOR)"
@@ -57,6 +57,6 @@ vet:
 	go vet ./lib/amity/
 
 test:
-	./amityd --config amityd.gcfg start & pid=$$!; cd tests && go test; kill $$pid
+	./amityd --config amityd.conf start & pid=$$!; cd tests && go test; kill $$pid
 
 all: format lint test

@@ -1,13 +1,12 @@
 package main
 
 import (
-	"github.com/mclellac/amity/lib/api"
-	"github.com/mclellac/amity/lib/client"
-
 	"fmt"
 	"log"
 	"reflect"
 	"testing"
+
+	"github.com/mclellac/amity/lib/client"
 )
 
 var _ = fmt.Print // For debugging; delete when done.
@@ -21,7 +20,7 @@ func TestUpdatePost(t *testing.T) {
 
 	// when
 	post.Title = "foo"
-	post.Body = "bar"
+	post.Article = "bar"
 	_, err := client.UpdatePost(post)
 
 	// then
@@ -48,7 +47,7 @@ func TestUpdateNonExistant(t *testing.T) {
 
 	// when
 	post.Title = "baz"
-	post.Body = "bing"
+	post.Article = "bing"
 	_, err := client.UpdatePost(post)
 
 	// then
