@@ -58,7 +58,7 @@ func (d *Daemon) Run(cfg Config) error {
 	// TODO: Make the logfile location/name a configurable item in the server config. For now we'll just hardcode it.
 	logfile, err := os.OpenFile("amityd.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
-		log.Fatalf("error opening file: %v", err)
+		log.Fatalf("Error opening file: %v", err)
 	}
 	defer logfile.Close()
 
@@ -86,7 +86,7 @@ func (d *Daemon) Run(cfg Config) error {
 	r.POST("/post/new", handler.CreatePost)
 	r.GET("/posts", handler.GetAllPosts)
 	r.GET("/post/:id", handler.GetPost)
-	r.DELETE("/post/:id", handler.DeletePost)
+	r.DELETE("/post/:id/", handler.DeletePost)
 	r.PUT("/post/:id", handler.UpdatePost)
 
 	// Run

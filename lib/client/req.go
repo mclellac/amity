@@ -13,8 +13,8 @@ type Client struct {
 // CreatePost submits a new post entry to the datastore.
 func (client *Client) CreatePost(title string, article string) (api.Post, error) {
 	var resp api.Post
-	post := api.Post{Title: title, Article: article}
 
+	post := api.Post{Title: title, Article: article}
 	url := client.Host + "/post/new"
 	r, err := makeRequest("POST", url, post)
 	if err != nil {
@@ -50,16 +50,18 @@ func (client *Client) GetPost(id int32) (api.Post, error) {
 		return resp, err
 	}
 	err = processResponseEntity(r, &resp, 200)
+
 	return resp, err
 }
 
 // DeletePost takes an ID and removes the corresponding post from the datastore
 func (client *Client) DeletePost(id int32) error {
-	url := client.Host + "/post/" + strconv.FormatInt(int64(id), 10)
+	url := client.Host + "/post/" + strconv.FormatInt(int64(id), 10) + "/"
 	r, err := makeRequest("DELETE", url, nil)
 	if err != nil {
 		return err
 	}
+
 	return processResponse(r, 204)
 }
 
@@ -72,20 +74,6 @@ func (client *Client) UpdatePost(post api.Post) (api.Post, error) {
 		return resp, err
 	}
 	err = processResponseEntity(r, &resp, 200)
-	return resp, err
-}
 
-func (client *Client) UpdateGoodRating(id int32, rating string) (api.Post, error) {
-	var resp api.Post
-
-	patchArr := make([]api.Patch, 1)
-	patchArr[0] = api.Patch{Op: "replace", Path: "/rating", Value: string(rating)}
-
-	url := client.Host + "/post/" + strconv.FormatInt(int64(id), 10)
-	r, err := makeRequest("PATCH", url, patchArr)
-	if err != nil {
-		return resp, err
-	}
-	err = processResponseEntity(r, &resp, 200)
 	return resp, err
 }

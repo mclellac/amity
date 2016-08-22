@@ -12,7 +12,6 @@ var _ = fmt.Print // For debugging; delete when done.
 var _ = log.Print // For debugging; delete when done.
 
 func TestGetPost(t *testing.T) {
-
 	// given
 	client := client.Client{Host: "http://localhost:3000"}
 	post, _ := client.CreatePost("foo", "bar")
@@ -35,7 +34,6 @@ func TestGetPost(t *testing.T) {
 }
 
 func TestGetNotFound(t *testing.T) {
-
 	// given
 	client := client.Client{Host: "http://localhost:3000"}
 	id := int32(3)
@@ -50,7 +48,6 @@ func TestGetNotFound(t *testing.T) {
 }
 
 func TestGetAllPosts(t *testing.T) {
-
 	// given
 	client := client.Client{Host: "http://localhost:3000"}
 	client.CreatePost("foo", "bar")
@@ -65,13 +62,13 @@ func TestGetAllPosts(t *testing.T) {
 	}
 
 	if len(posts) != 2 {
-		t.Error("wrong number of posts")
+		t.Error("Wrong number of posts")
 	}
 	if posts[0].Title != "foo" && posts[0].Article != "bar" {
-		t.Error("returned post not right")
+		t.Error("Returned post not right")
 	}
 	if posts[1].Title != "baz" && posts[1].Article != "bing" {
-		t.Error("returned post not right")
+		t.Error("Returned post not right")
 	}
 
 	// cleanup

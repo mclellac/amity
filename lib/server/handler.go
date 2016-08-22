@@ -56,7 +56,7 @@ func (s *Service) DeletePost(c *gin.Context) {
 func (s *Service) GetAllPosts(c *gin.Context) {
 	var posts []api.Post
 
-	s.db.Order("created article").Find(&posts)
+	s.db.Order("created desc").Find(&posts)
 
 	c.JSON(200, posts)
 }
@@ -102,10 +102,11 @@ func (s *Service) UpdatePost(c *gin.Context) {
 
 	var post api.Post
 
-	if c.Bind(&post) == nil {
+	if err := c.Bind(&post); err != nil {
 		c.JSON(400, api.NewError("Problem decoding article"))
 		return
 	}
+
 	post.Id = int32(id)
 
 	var existing api.Post

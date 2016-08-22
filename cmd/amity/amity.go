@@ -125,7 +125,7 @@ func main() {
 				}
 
 				client.DeletePost(post.Id)
-				fmt.Printf("%s%+v%s\n", ui.Grey, post, ui.Reset)
+				fmt.Printf("%sDeleted:\n%s%+v%s\n", ui.Red, ui.Grey, post, ui.Reset)
 
 				return nil
 			},
