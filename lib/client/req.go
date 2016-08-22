@@ -39,6 +39,8 @@ func (client *Client) GetAllPosts() ([]api.Post, error) {
 	return resp, err
 }
 
+// GetPost takes an integer ID as an argument, and retrieves a post
+// from the datastore that corresponds with that ID.
 func (client *Client) GetPost(id int32) (api.Post, error) {
 	var resp api.Post
 
@@ -59,4 +61,31 @@ func (client *Client) DeletePost(id int32) error {
 		return err
 	}
 	return processResponse(r, 204)
+}
+
+func (client *Client) UpdatePost(post api.Post) (api.Post, error) {
+	var resp api.Post
+
+	url := client.Host + "/post/" + strconv.FormatInt(int64(post.Id), 10)
+	r, err := makeRequest("PUT", url, post)
+	if err != nil {
+		return resp, err
+	}
+	err = processResponseEntity(r, &resp, 200)
+	return resp, err
+}
+
+func (client *Client) UpdateGoodRating(id int32, rating string) (api.Post, error) {
+	var resp api.Post
+
+	patchArr := make([]api.Patch, 1)
+	patchArr[0] = api.Patch{Op: "replace", Path: "/rating", Value: string(rating)}
+
+	url := client.Host + "/post/" + strconv.FormatInt(int64(id), 10)
+	r, err := makeRequest("PATCH", url, patchArr)
+	if err != nil {
+		return resp, err
+	}
+	err = processResponseEntity(r, &resp, 200)
+	return resp, err
 }

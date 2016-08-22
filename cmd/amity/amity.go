@@ -16,7 +16,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "amity"
 	app.Usage = "The command like application that allows you to interact with amityd."
-	app.Version = "0.0.2"
+	app.Version = "1.0.0"
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{Name: "host", Value: "http://localhost:3000", Usage: "amityd server host"},
@@ -127,6 +127,43 @@ func main() {
 				client.DeletePost(post.Id)
 				fmt.Printf("%s%+v%s\n", ui.Grey, post, ui.Reset)
 
+				return nil
+			},
+		},
+		{
+			Name:        "update",
+			Usage:       "Update a post.",
+			Description: "Modify an existing post by supplying the posts ID, and updated title & article text.\n\nEXAMPLE:\n   $ amity update 2 \"New Title\" \"New article text.\"",
+			ArgsUsage:   "[ID] \"new title text\" \"updated article text.\"",
+			Action: func(c *cli.Context) error {
+				idStr := c.Args().Get(0)
+				id, err := strconv.Atoi(idStr)
+				if err != nil {
+					log.Print(err)
+					return nil
+				}
+
+				title := c.Args().Get(1)
+				article := c.Args().Get(2)
+				host := c.GlobalString("host")
+				client := client.Client{Host: host}
+
+				post, err := client.GetPost(int32(id))
+				if err != nil {
+					log.Fatal(err)
+					return nil
+				}
+
+				post.Title = title
+				post.Article = article
+
+				post2, err := client.UpdatePost(post)
+				if err != nil {
+					log.Fatal(err)
+					return nil
+				}
+
+				fmt.Printf("%+v\n", post2)
 				return nil
 			},
 		},

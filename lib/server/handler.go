@@ -90,3 +90,30 @@ func (s *Service) GetID(c *gin.Context) (int32, error) {
 	}
 	return int32(id), nil
 }
+
+// UpdatePost takes the ID of the post entry from the
+// context, and updates the database entry.
+func (s *Service) UpdatePost(c *gin.Context) {
+	id, err := s.GetID(c)
+	if err != nil {
+		c.JSON(400, api.NewError("Problem decoding ID sent"))
+		return
+	}
+
+	var post api.Post
+
+	if c.Bind(&post) == nil {
+		c.JSON(400, api.NewError("Problem decoding desc"))
+		return
+	}
+	post.Id = int32(id)
+
+	var existing api.Post
+
+	if s.db.First(&existing, id).RecordNotFound() {
+		c.JSON(404, api.NewError("Not found"))
+	} else {
+		s.db.Save(&post)
+		c.JSON(200, post)
+	}
+}

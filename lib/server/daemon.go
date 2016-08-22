@@ -4,8 +4,10 @@ import (
 	"log"
 	"os"
 
+	"github.com/mclellac/amity/lib/api"
+
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
+	//"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
 
@@ -35,6 +37,21 @@ func (d *Daemon) getDB(cfg Config) (*gorm.DB, error) {
 		cfg.Database.DatabaseName + "?charset=utf8&parseTime=True"
 
 	return gorm.Open("mysql", connectionString)
+}
+
+func (d *Daemon) Migrate(cfg Config) error {
+	db, err := d.getDB(cfg)
+	if err != nil {
+		return err
+	}
+	// Disable table name's pluralization
+	db.SingularTable(true)
+	// Enable Logger
+	db.LogMode(true)
+	db.SetLogger(log.New(os.Stdout, "\r\n", 0))
+
+	db.AutoMigrate(api.Post{}, api.OAuth2{}, api.User{})
+	return nil
 }
 
 func (d *Daemon) Run(cfg Config) error {
@@ -70,6 +87,7 @@ func (d *Daemon) Run(cfg Config) error {
 	r.GET("/posts", handler.GetAllPosts)
 	r.GET("/post/:id", handler.GetPost)
 	r.DELETE("/post/:id", handler.DeletePost)
+	r.PUT("/post/:id", handler.UpdatePost)
 
 	// Run
 	r.Run(cfg.Server.DomainName)
