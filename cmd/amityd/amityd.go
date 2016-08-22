@@ -65,6 +65,24 @@ func main() {
 				return nil
 			},
 		},
+		{
+			Name:  "migratedb",
+			Usage: "Perform database migrations",
+			Action: func(c *cli.Context) error {
+				cfg, err := readConfig(c)
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				d := server.Daemon{}
+
+				if err = d.Migrate(cfg); err != nil {
+					log.Fatal(err)
+				}
+
+				return nil
+			},
+		},
 	}
 	app.Run(os.Args)
 }
