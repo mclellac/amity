@@ -82,7 +82,7 @@ func (d *Daemon) Run(cfg Config) error {
 	r.Use(gin.Recovery())
 
 	// Resources
-	r.GET("/", func(c *gin.Context) { c.JSON(200, gin.H{"message": "Hello"}) })
+	r.GET("/", func(c *gin.Context) { c.JSON(200, gin.H{"message": "ハローワールド"}) })
 	r.POST("/post/new", handler.CreatePost)
 	r.GET("/posts", handler.GetAllPosts)
 	r.GET("/post/:id", handler.GetPost)
