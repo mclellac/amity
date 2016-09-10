@@ -10,7 +10,6 @@ GOINSTALL=$(GOCMD) install
 GOTEST=$(GOCMD) test
 GOFMT=gofmt -w
 DEPS=$(shell go list -f '{{range .TestImports}}{{.}} {{end}}' ./...)
-PACKAGES = $(shell go list ./...)
 
 default: build
 
@@ -23,10 +22,6 @@ updatedeps:
 	@echo "$(OK_COLOR)==> Updating all dependencies$(NO_COLOR)"
 	@go get -d -u ./...
 	@echo $(DEPS) | xargs -n1 go get -d -u
-
-format:
-	@echo "$(OK_COLOR)==> Formatting$(NO_COLOR)"
-	$(GOFMT) $(PACKAGES)
 
 build:
 	@echo "$(OK_COLOR)==> Building$(NO_COLOR)"
@@ -53,8 +48,8 @@ vet:
 	go vet ./cmd/amityd/
 	go vet ./cmd/amity/
 	go vet ./lib/api/
-	go vet ./libamityd/
-	go vet ./lib/amity/
+	go vet ./lib/server/
+	go vet ./lib/client/
 
 test:
 	./amityd --config amityd.conf start & pid=$$!; cd tests && go test; kill $$pid

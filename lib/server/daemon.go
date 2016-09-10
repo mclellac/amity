@@ -83,11 +83,11 @@ func (d *Daemon) Run(cfg Config) error {
 
 	// Resources
 	r.GET("/", func(c *gin.Context) { c.JSON(200, gin.H{"message": "ハローワールド"}) })
-	r.POST("/post/new", handler.CreatePost)
-	r.GET("/posts", handler.GetAllPosts)
-	r.GET("/post/:id", handler.GetPost)
-	r.DELETE("/post/:id/", handler.DeletePost)
-	r.PUT("/post/:id", handler.UpdatePost)
+	r.POST("/api/post/new", handler.CreatePost)
+	r.GET("/api/posts", handler.GetAllPosts)
+	r.GET("/api/post/:id", handler.GetPost)
+	r.DELETE("/api/post/:id/", handler.DeletePost)
+	r.PUT("/api/post/:id", handler.UpdatePost)
 
 	// Run
 	r.Run(cfg.Server.DomainName)
