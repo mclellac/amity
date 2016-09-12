@@ -50,6 +50,7 @@ vet:
 	go vet ./lib/api/
 	go vet ./lib/server/
 	go vet ./lib/client/
+	go vet ./lib/ui/
 
 test:
 	./amityd --config amityd.conf start & pid=$$!; cd tests && go test; kill $$pid
