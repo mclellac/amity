@@ -7,20 +7,26 @@ import (
 
 	"github.com/mclellac/amity/lib/api"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+
+	// Using gorm with a postgres db
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
+// Config struct
 type Config struct {
 	Server
 	Database
 }
 
+// Server struct
 type Server struct {
 	DomainName string
 }
 
+// Database config struct
 type Database struct {
 	Username     string
 	Password     string
@@ -28,9 +34,11 @@ type Database struct {
 	DatabaseName string
 }
 
+// Daemon struct
 type Daemon struct {
 }
 
+// getDB establishes the Postgres DB connection string from the config file.
 func (d *Daemon) getDB(cfg Config) (*gorm.DB, error) {
 
 	connectionString := "postgres://" + cfg.Database.Username + ":" +
@@ -42,6 +50,7 @@ func (d *Daemon) getDB(cfg Config) (*gorm.DB, error) {
 	return gorm.Open("postgres", connectionString)
 }
 
+// Migrate the database
 func (d *Daemon) Migrate(cfg Config) error {
 	db, err := d.getDB(cfg)
 	if err != nil {
@@ -57,6 +66,7 @@ func (d *Daemon) Migrate(cfg Config) error {
 	return nil
 }
 
+// Run the server
 func (d *Daemon) Run(cfg Config) error {
 	// TODO: Make the logfile location/name a configurable item in the server config. For now we'll just hardcode it.
 	logfile, err := os.OpenFile("amityd.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
@@ -80,22 +90,23 @@ func (d *Daemon) Run(cfg Config) error {
 
 	handler := &Service{db: db}
 
-	r := gin.New()
+	router := gin.Default()
 
-	// Global middlewares
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
+	// Global middleware
+	router.Use(gin.Logger())
+	router.Use(gin.Recovery())
+	router.Use(cors.Default())
 
-	// Resources
-	r.GET("/", func(c *gin.Context) { c.JSON(200, gin.H{"message": "ハローワールド"}) })
-	r.POST("/post/new", handler.CreatePost)
-	r.GET("/posts", handler.GetAllPosts)
-	r.GET("/post/:id", handler.GetPost)
-	r.DELETE("/post/:id/", handler.DeletePost)
-	r.PUT("/post/:id", handler.UpdatePost)
+	// App routes
+	router.GET("/", func(c *gin.Context) { c.JSON(200, gin.H{"message": "ハローワールド"}) })
+	router.POST("/post/new", handler.CreatePost)
+	router.GET("/posts", handler.GetAllPosts)
+	router.GET("/post/:id", handler.GetPost)
+	router.DELETE("/post/:id/", handler.DeletePost)
+	router.PUT("/post/:id", handler.UpdatePost)
 
 	// Run
-	r.Run(cfg.Server.DomainName)
+	router.Run(cfg.Server.DomainName)
 
 	return nil
 }
