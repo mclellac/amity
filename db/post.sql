@@ -8,4 +8,4 @@ CREATE TABLE `post` (
     `created_at`    datetime NOT NULL,
     `updated_at`    datetime NOT NULL,
     PRIMARY KEY     (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+);
