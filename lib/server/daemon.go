@@ -1,14 +1,15 @@
 package server
 
 import (
+	"fmt"
 	"log"
 	"os"
 
 	"github.com/mclellac/amity/lib/api"
 
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 type Config struct {
@@ -31,12 +32,14 @@ type Daemon struct {
 }
 
 func (d *Daemon) getDB(cfg Config) (*gorm.DB, error) {
-	connectionString := cfg.Database.Username + ":" +
-		cfg.Database.Password + "@tcp(" +
-		cfg.Database.Hostname + ":3306)/" +
-		cfg.Database.DatabaseName + "?charset=utf8&parseTime=True"
 
-	return gorm.Open("mysql", connectionString)
+	connectionString := "postgres://" + cfg.Database.Username + ":" +
+		cfg.Database.Password + "@" +
+		cfg.Database.Hostname + ":5432/" +
+		cfg.Database.DatabaseName + "?sslmode=disable"
+
+	fmt.Println(connectionString)
+	return gorm.Open("postgres", connectionString)
 }
 
 func (d *Daemon) Migrate(cfg Config) error {
@@ -66,6 +69,8 @@ func (d *Daemon) Run(cfg Config) error {
 	if err != nil {
 		return err
 	}
+	defer db.Close()
+
 	// Disable table name's pluralization
 	db.SingularTable(true)
 

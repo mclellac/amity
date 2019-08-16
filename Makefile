@@ -53,8 +53,8 @@ vet:
 	go vet ./cmd/amityd/
 	go vet ./cmd/amity/
 	go vet ./lib/api/
-	go vet ./libamityd/
-	go vet ./lib/amity/
+	#go vet ./lib/amityd/
+	#go vet ./lib/amity/
 
 test:
 	./amityd --config amityd.conf start & pid=$$!; cd tests && go test; kill $$pid
