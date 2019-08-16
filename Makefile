@@ -30,15 +30,15 @@ format:
 
 build:
 	@echo "$(OK_COLOR)==> Building$(NO_COLOR)"
-	$(GOBUILD) -o ./amityd ./cmd/amityd/
-	$(GOBUILD) -o ./amity  ./cmd/amity/
+	$(GOBUILD) -o ./bin/amityd ./cmd/amityd/
+	$(GOBUILD) -o ./bin/amity  ./cmd/amity/
 
 clean:
 	go clean -i -r -x
-	rm ./amityd && rm ./amity
+	rm ./bin/*
 
 migrate:
-	./amityd --config amityd.conf migratedb
+	./bin/amityd --config amityd.conf migratedb
 
 install:
 	@echo "$(OK_COLOR)==> Installing$(NO_COLOR)"
@@ -57,6 +57,6 @@ vet:
 	#go vet ./lib/amity/
 
 test:
-	./amityd --config amityd.conf start & pid=$$!; cd tests && go test; kill $$pid
+	./bin/amityd --config amityd.conf start & pid=$$!; cd tests && go test; kill $$pid
 
 all: format lint test
