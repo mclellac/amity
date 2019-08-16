@@ -18,7 +18,7 @@ func main() {
 	app.Version = "1.0.0"
 
 	app.Flags = []cli.Flag{
-		cli.StringFlag{Name: "host", Value: "http://localhost:3000", Usage: "amityd server host"},
+		cli.StringFlag{Name: "host", Value: "http://localhost:3001", Usage: "amityd server host"},
 	}
 
 	app.Commands = []cli.Command{
