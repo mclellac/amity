@@ -8,7 +8,6 @@ import (
 
 	"github.com/mclellac/amity/lib/client"
 	"github.com/mclellac/amity/lib/ui"
-
 	"github.com/urfave/cli"
 )
 

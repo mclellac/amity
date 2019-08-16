@@ -3,6 +3,8 @@ module github.com/mclellac/amity
 go 1.12
 
 require (
+	github.com/coreos/etcd v3.3.13+incompatible
+	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/gin-contrib/cors v1.3.0
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.4.0
