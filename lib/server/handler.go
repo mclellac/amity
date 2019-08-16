@@ -107,7 +107,7 @@ func (s *Service) UpdatePost(c *gin.Context) {
 		return
 	}
 
-	post.Id = int32(id)
+	post.ID = int32(id)
 
 	var existing api.Post
 

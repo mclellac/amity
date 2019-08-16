@@ -7,6 +7,8 @@ import (
 	"github.com/mclellac/amity/lib/ui"
 )
 
+// ListView is the view used by the amity cli client when listing
+// posts.
 func (client *Client) ListView(id int32, title string) {
 	idStr := strconv.FormatInt(int64(id), 10)
 
@@ -20,6 +22,7 @@ func (client *Client) ListView(id int32, title string) {
 		ui.Reset)
 }
 
+// ReadView is the view used for the amity cli client when reading posts.
 func (client *Client) ReadView(id int32, title string, article string) {
 	idStr := strconv.FormatInt(int64(id), 10)
 

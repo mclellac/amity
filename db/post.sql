@@ -9,4 +9,3 @@ CREATE TABLE post (
     article character varying(8000) NOT NULL,
     PRIMARY KEY (id)
 );
-

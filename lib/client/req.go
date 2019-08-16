@@ -6,6 +6,7 @@ import (
 	"github.com/mclellac/amity/lib/api"
 )
 
+// Client struct
 type Client struct {
 	Host string
 }
@@ -54,7 +55,7 @@ func (client *Client) GetPost(id int32) (api.Post, error) {
 	return resp, err
 }
 
-// DeletePost takes an ID and removes the corresponding post from the datastore
+// DeletePost takes an ID and deletes the corresponding post from the database.
 func (client *Client) DeletePost(id int32) error {
 	url := client.Host + "/post/" + strconv.FormatInt(int64(id), 10) + "/"
 	r, err := makeRequest("DELETE", url, nil)
@@ -65,10 +66,11 @@ func (client *Client) DeletePost(id int32) error {
 	return processResponse(r, 204)
 }
 
+// UpdatePost modifies an already present post.
 func (client *Client) UpdatePost(post api.Post) (api.Post, error) {
 	var resp api.Post
 
-	url := client.Host + "/post/" + strconv.FormatInt(int64(post.Id), 10)
+	url := client.Host + "/post/" + strconv.FormatInt(int64(post.ID), 10)
 	r, err := makeRequest("PUT", url, post)
 	if err != nil {
 		return resp, err

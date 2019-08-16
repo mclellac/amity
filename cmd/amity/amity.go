@@ -66,7 +66,7 @@ func main() {
 				ui.DrawDivider()
 
 				for _, post := range posts {
-					client.ListView(post.Id, post.Title)
+					client.ListView(post.ID, post.Title)
 				}
 
 				return nil
@@ -95,7 +95,7 @@ func main() {
 					return nil
 				}
 
-				client.ReadView(post.Id, post.Title, post.Article)
+				client.ReadView(post.ID, post.Title, post.Article)
 
 				return nil
 			},
@@ -123,7 +123,7 @@ func main() {
 					return nil
 				}
 
-				client.DeletePost(post.Id)
+				client.DeletePost(post.ID)
 				fmt.Printf("%sDeleted:\n%s%+v%s\n", ui.Red, ui.Grey, post, ui.Reset)
 
 				return nil
