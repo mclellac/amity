@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const API = 'http://localhost:3001/post/';
+const API = 'http://localhost:3001/v1/post/';
 const QUERY = '3';
 
 class Fetch extends Component {

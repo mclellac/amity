@@ -92,6 +92,8 @@ func (d *Daemon) Run(cfg Config) error {
 
 	router := gin.Default()
 
+	gin.ForceConsoleColor()
+
 	// Global middleware
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
@@ -99,12 +101,18 @@ func (d *Daemon) Run(cfg Config) error {
 
 	// App routes
 	router.GET("/", func(c *gin.Context) { c.JSON(200, gin.H{"message": "ハローワールド"}) })
-	router.POST("/post/new", handler.CreatePost)
-	router.GET("/posts", handler.GetAllPosts)
-	router.GET("/post/:id", handler.GetPost)
-	router.DELETE("/post/:id/", handler.DeletePost)
-	router.PUT("/post/:id", handler.UpdatePost)
 
+	// v1 route group
+	v1 := router.Group("/v1")
+	{
+		v1.POST("/post/new", handler.CreatePost)
+		v1.GET("/posts", handler.GetAllPosts)
+		v1.GET("/post/:id", handler.GetPost)
+		v1.DELETE("/post/:id/", handler.DeletePost)
+		v1.PUT("/post/:id", handler.UpdatePost)
+	}
+	
+	
 	// Run
 	router.Run(cfg.Server.DomainName)
 
