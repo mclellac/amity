@@ -25,9 +25,9 @@ class Fetch extends Component {
           throw new Error('Something went wrong ...');
         }
       })
-      .then(data => this.setState({ id: data.id, 
-        created: data.created, 
-        title: data.title, 
+      .then(data => this.setState({ id: data.id,
+        created: data.created,
+        title: data.title,
         article: data.article,
         isLoading: false }))
       .catch(error => this.setState({ error, isLoading: false }));
