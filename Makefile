@@ -1,37 +1,42 @@
-NO_COLOR=$(shell echo  "\033[0m")
-OK_COLOR=$(shell echo  "\033[32;01m")
-ERROR_COLOR=$(shell echo  "\033[31;01m")
-WARN_COLOR=$(shell echo  "\033[33;01m")
-SOURCE=$(go list ./... | grep -v "tests")
-GOCMD=go
-GOBUILD=$(GOCMD) build
-GOCLEAN=$(GOCMD) clean
-GOINSTALL=$(GOCMD) install
-GOTEST=$(GOCMD) test
 GOFMT=gofmt -w
 DEPS=$(shell go list -f '{{range .TestImports}}{{.}} {{end}}' ./...)
-PACKAGES = $(shell go list ./...)
+PACKAGES := $(shell go list ./...)
+
+# Prettify output
+UNAME_S	 := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	RESET = $(shell echo -e "\033[0m")
+	GREEN = $(shell echo -e "\033[32;01m")
+	ERROR = $(shell echo -e "\033[31;01m")
+	WARN  = $(shell echo -e "\033[33;01m")
+endif
+ifeq ($(UNAME_S),Darwin)
+	RESET := $(shell echo "\033[0m")
+	GREEN := $(shell echo "\033[32;01m")
+	ERROR := $(shell echo "\033[31;01m")
+	WARN  := $(shell echo "\033[33;01m")
+endif
 
 default: build
 
 deps:
-	@echo "$(OK_COLOR)==> Installing dependencies$(NO_COLOR)"
+	@echo "$(GREEN)==> Installing dependencies$(RESET)"
 	@go get -d -v ./...
 	@echo $(DEPS) | xargs -n1 go get -d
 
 updatedeps:
-	@echo "$(OK_COLOR)==> Updating all dependencies$(NO_COLOR)"
+	@echo "$(GREEN)==> Updating all dependencies$(RESET)"
 	@go get -d -u ./...
 	@echo $(DEPS) | xargs -n1 go get -d -u
 
 format:
-	@echo "$(OK_COLOR)==> Formatting$(NO_COLOR)"
-	$(GOFMT) $(PACKAGES)
+	@echo "$(GREEN)==> Formatting$(RESET)"
+	$(foreach ENTRY,$(PACKAGES),$(GOFMT) $(GOPATH)/src/$(ENTRY);)
 
 build:
-	@echo "$(OK_COLOR)==> Building$(NO_COLOR)"
-	$(GOBUILD) -o ./bin/amityd ./cmd/amityd/
-	$(GOBUILD) -o ./bin/amity  ./cmd/amity/
+	@echo "$(GREEN)==> Building$(RESET)"
+	go build -o ./bin/amityd ./cmd/amityd/
+	go build -o ./bin/amity  ./cmd/amity/
 
 clean:
 	go clean -i -r -x
@@ -41,12 +46,12 @@ migrate:
 	./bin/amityd --config amityd.conf migratedb
 
 install:
-	@echo "$(OK_COLOR)==> Installing$(NO_COLOR)"
+	@echo "$(GREEN)==> Installing$(RESET)"
 	go install ./cmd/amityd
 	go install ./cmd/amity
 
 lint:
-	@echo "$(OK_COLOR)==> Linting$(NO_COLOR)"
+	@echo "$(GREEN)==> Linting$(RESET)"
 	${GOPATH}/bin/golint .
 
 vet:
@@ -60,3 +65,8 @@ test:
 	./bin/amityd --config amityd.conf start & pid=$$!; cd tests && go test; kill $$pid
 
 all: format lint test
+
+help:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+.DEFAULT_GOAL := help
