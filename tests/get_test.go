@@ -64,9 +64,11 @@ func TestGetAllPosts(t *testing.T) {
 	if len(posts) != 2 {
 		t.Error("Wrong number of posts")
 	}
+
 	if posts[0].Title != "foo" && posts[0].Article != "bar" {
 		t.Error("Returned post not right")
 	}
+
 	if posts[1].Title != "baz" && posts[1].Article != "bing" {
 		t.Error("Returned post not right")
 	}
