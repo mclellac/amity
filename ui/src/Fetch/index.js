@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const API = 'http://localhost:3001/v1/post/';
-const QUERY = '3';
+const QUERY = '1';
 
 class Fetch extends Component {
   constructor(props) {
@@ -25,7 +25,8 @@ class Fetch extends Component {
           throw new Error('Something went wrong ...');
         }
       })
-      .then(data => this.setState({ id: data.id,
+      .then(data => this.setState({ 
+        id: data.id,
         created: data.created,
         title: data.title,
         article: data.article,
@@ -45,11 +46,12 @@ class Fetch extends Component {
     }
 
     return (
-      <ul>
-        <li>ID = {id}</li>
-        <li>Title = {title}</li>
-        <li>Article = {article}</li>
-      </ul>
+      <div class="post">
+        <div>{id}</div>
+        <div>{title}</div>
+        <div> created on: {created}</div>
+        <div>{article}</div>
+      </div>
     );
   }
 }
