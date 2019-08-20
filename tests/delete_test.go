@@ -13,19 +13,19 @@ var _ = log.Print // For debugging; delete when done.
 
 func TestDeletePost(t *testing.T) {
 	// given
-	client := client.Client{Host: "http://localhost:3000"}
+	client := client.Client{Host: "http://localhost:3001"}
 	post, _ := client.CreatePost("foo", "bar")
-	id := post.Id
+	ID := post.ID
 
 	// when
-	err := client.DeletePost(id)
+	err := client.DeletePost(ID)
 
 	// then
 	if err != nil {
 		t.Error(err)
 	}
 
-	_, err = client.GetPost(id)
+	_, err = client.GetPost(ID)
 	if err == nil {
 		t.Error(err)
 	}
@@ -33,10 +33,10 @@ func TestDeletePost(t *testing.T) {
 
 func TestDeleteNotFound(t *testing.T) {
 	// given
-	client := client.Client{Host: "http://localhost:3000"}
-	id := int32(3)
+	client := client.Client{Host: "http://localhost:3001"}
+	ID := int32(3)
 	// when
-	err := client.DeletePost(id)
+	err := client.DeletePost(ID)
 
 	// then
 	if err == nil {

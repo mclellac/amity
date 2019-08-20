@@ -17,7 +17,7 @@ ifeq ($(UNAME_S),Darwin)
 	WARN  := $(shell echo "\033[33;01m")
 endif
 
-default: build
+#default: build
 
 deps:
 	@echo "$(GREEN)==> Installing dependencies$(RESET)"
@@ -64,7 +64,8 @@ vet:
 test:
 	./bin/amityd --config amityd.conf start & pid=$$!; cd tests && go test; kill $$pid
 
-all: format lint test
+
+all: format lint vet build
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

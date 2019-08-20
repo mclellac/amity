@@ -13,12 +13,12 @@ var _ = log.Print // For debugging; delete when done.
 
 func TestGetPost(t *testing.T) {
 	// given
-	client := client.Client{Host: "http://localhost:3000"}
+	client := client.Client{Host: "http://localhost:3001"}
 	post, _ := client.CreatePost("foo", "bar")
-	id := post.Id
+	ID := post.ID
 
 	// when
-	post, err := client.GetPost(id)
+	post, err := client.GetPost(ID)
 
 	// then
 	if err != nil {
@@ -30,16 +30,16 @@ func TestGetPost(t *testing.T) {
 	}
 
 	// cleanup
-	_ = client.DeletePost(post.Id)
+	_ = client.DeletePost(post.ID)
 }
 
 func TestGetNotFound(t *testing.T) {
 	// given
-	client := client.Client{Host: "http://localhost:3000"}
-	id := int32(3)
+	client := client.Client{Host: "http://localhost:3001"}
+	ID := int32(3)
 
 	// when
-	_, err := client.GetPost(id)
+	_, err := client.GetPost(ID)
 
 	// then
 	if err == nil {
@@ -49,7 +49,7 @@ func TestGetNotFound(t *testing.T) {
 
 func TestGetAllPosts(t *testing.T) {
 	// given
-	client := client.Client{Host: "http://localhost:3000"}
+	client := client.Client{Host: "http://localhost:3001"}
 	client.CreatePost("foo", "bar")
 	client.CreatePost("baz", "bing")
 
@@ -72,6 +72,6 @@ func TestGetAllPosts(t *testing.T) {
 	}
 
 	// cleanup
-	_ = client.DeletePost(posts[0].Id)
-	_ = client.DeletePost(posts[1].Id)
+	_ = client.DeletePost(posts[0].ID)
+	_ = client.DeletePost(posts[1].ID)
 }

@@ -15,7 +15,7 @@ var _ = log.Print // For debugging; delete when done.
 func TestUpdatePost(t *testing.T) {
 
 	// given
-	client := client.Client{Host: "http://localhost:3000"}
+	client := client.Client{Host: "http://localhost:3001"}
 	post, _ := client.CreatePost("foo", "bar")
 
 	// when
@@ -28,22 +28,22 @@ func TestUpdatePost(t *testing.T) {
 		t.Error(err)
 	}
 
-	postResult, _ := client.GetPost(post.Id)
+	postResult, _ := client.GetPost(post.ID)
 
 	if !reflect.DeepEqual(post, postResult) {
 		t.Error("returned post not updated")
 	}
 
 	// cleanup
-	_ = client.DeletePost(post.Id)
+	_ = client.DeletePost(post.ID)
 }
 
 func TestUpdateNonExistant(t *testing.T) {
 
 	// given
-	client := client.Client{Host: "http://localhost:3000"}
+	client := client.Client{Host: "http://localhost:3001"}
 	post, _ := client.CreatePost("foo", "bar")
-	_ = client.DeletePost(post.Id)
+	_ = client.DeletePost(post.ID)
 
 	// when
 	post.Title = "baz"

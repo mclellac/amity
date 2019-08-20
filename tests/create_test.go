@@ -13,7 +13,7 @@ var _ = log.Print
 
 func TestCreatePost(t *testing.T) {
 	// given
-	client := client.Client{Host: "http://localhost:3000"}
+	client := client.Client{Host: "http://localhost:3001"}
 
 	// when
 	post, err := client.CreatePost("foo", "bar")
@@ -28,5 +28,5 @@ func TestCreatePost(t *testing.T) {
 	}
 
 	// cleanup
-	_ = client.DeletePost(post.Id)
+	_ = client.DeletePost(post.ID)
 }
